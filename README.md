@@ -1,45 +1,47 @@
-# slack-bot
+# Publisher-Slack-Bot
 
-[How to Develop SlackBot Using Golang?](https://www.technource.com/blog/how-to-create-a-slackbot-using-golang/#What_Is_Slack_Bot)
+Re: [How to Develop SlackBot Using Golang?](https://www.technource.com/blog/how-to-create-a-slackbot-using-golang/#What_Is_Slack_Bot)
 
-1. Create a Slack Application
+## Create a Slack Application
 
 - Go to the Slack website
-- Choose “From Scratch”
+- Choose `From Scratch`
 - Application name from the Slackbot suggestions
 
-![](image.png)  
+    ![](./assets/img/image-0.png)  
 
 - Now create a bot with the app
 
-![](image-1.png)
+    ![](./assets/img/image-1.png)
 
-- Click on “Bots”. You will be redirected to the help page
+- Click on `Bots`. You will be redirected to the help page
 - Add scopes and add permissions to the application
 - Click on “Review Scopes to Add”
 - Add four main scopes
 
-![](image-2.png)
+    ![](./assets/img/image-2.png)
 
 - Now you can install the application
 
-![](image-3.png)
+    ![](./assets/img/image-3.png)
+
 - Now select a channel that can a bot use. A bot uses a channel to post on an app.
 
-![](image-4.png)
+    ![](./assets/img/image-4.png)
 
-- Click on “Allow”. This way, you can get the OAth Token and Webhook URL important for the authentication.
+- Click on `Allow`. This way, you can get the OAth Token and Webhook URL important for the authentication.
 
-![](image-5.png)
+    ![](./assets/img/image-5.png)
 
 - Now you have to invite the app to a channel. You can use Slack-bot-Golang
 
-![](image-6.png)
+    ![](./assets/img/image-6.png)
 
-- Write a command message that starts with a Slash /.;Invitethebotwiththecommand/invite@nameofyourbo
+- Write a command message that starts with a slash `/`
+  
+    `/invite @NameOfYourbot.`
 
-
-2. Golang Setup and Installation
+## Golang Setup and Installation
 
 ```sh
 ✗ go mod init IlonaBot
@@ -56,9 +58,8 @@ go: added golang.org/x/net v0.20.0
 ✗ go get -u github.com/joho/godotenv 
 go: downloading github.com/joho/godotenv v1.5.1
 go: added github.com/joho/godotenv v1.5.1
-
-
 ```
+
 You have to run the below command for the functioning of the program
 
 ```sh
@@ -78,6 +79,4 @@ go: added google.golang.org/appengine v1.6.7
 go: added google.golang.org/protobuf v1.31.0
 
 ✗ go run main.go
-
 ```
-
