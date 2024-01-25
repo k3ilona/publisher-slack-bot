@@ -8,33 +8,33 @@
 - Choose “From Scratch”
 - Application name from the Slackbot suggestions
 
-![](image.png)  
+![](.img/image.png)  
 
 - Now create a bot with the app
 
-![](image-1.png)
+![](.img/image-1.png)
 
 - Click on “Bots”. You will be redirected to the help page
 - Add scopes and add permissions to the application
 - Click on “Review Scopes to Add”
 - Add four main scopes
 
-![](image-2.png)
+![](.img/image-2.png)
 
 - Now you can install the application
 
-![](image-3.png)
+![](.img/image-3.png)
 - Now select a channel that can a bot use. A bot uses a channel to post on an app.
 
-![](image-4.png)
+![](.img/image-4.png)
 
 - Click on “Allow”. This way, you can get the OAth Token and Webhook URL important for the authentication.
 
-![](image-5.png)
+![](.img/image-5.png)
 
 - Now you have to invite the app to a channel. You can use Slack-bot-Golang
 
-![](image-6.png)
+![](.img/image-6.png)
 
 - Write a command message that starts with a Slash /.;Invitethebotwiththecommand/invite@nameofyourbo
 
