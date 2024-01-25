@@ -39,7 +39,7 @@ Re: [How to Develop SlackBot Using Golang?](https://www.technource.com/blog/how-
 
 - Write a command message that starts with a slash `/`
   
-    `/invite @NameOfYourbot.`
+    `/invite @IlonaBot`
 
 ## Golang Setup and Installation
 
