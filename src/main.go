@@ -129,6 +129,33 @@ func getGitHubDiff(repoOwner, repoName, base, head string) (string, error) {
 	return "", nil
 }
 
+// Функція для отримання змін між версіями в різних репозиторіях
+func getGitHubDiff(repoOwner, repoName, base, head string) (string, error) {
+	// Налаштуйте аутентифікацію GitHub
+	ctx := context.Background()
+	ts := oauth2.StaticTokenSource(
+		&oauth2.Token{AccessToken: githubAccessToken},
+	)
+	tc := oauth2.NewClient(ctx, ts)
+
+	// Створіть клієнт GitHub
+	client := github.NewClient(tc)
+
+	// Отримайте порівняльні коміти між base та head
+	commits, _, err := client.Repositories.CompareCommits(ctx, repoOwner, repoName, base, head)
+	if err != nil {
+		return "", err
+	}
+
+	// Зібрати інформацію про зміни
+	var changes []string
+	for _, commit := range commits.Commits {
+		changes = append(changes, *commit.Commit.Message)
+	}
+
+	return strings.Join(changes, "\n"), nil
+}
+
 // Функція для виконання просування версії
 func promoteVersion(repoOwner, repoName, environment string) error {
 	// Реалізуйте логіку для виконання просування версії
