@@ -74,3 +74,24 @@ autonumber
     G ->>- B: Webhook
     B -->> D: Відомості про стан та розгортання артефакту в оточенні        
 ```
+
+## Команда rollback
+
+```mermaid
+sequenceDiagram
+autonumber
+    participant D as Developer
+    participant R as Repository
+    participant G as GitOps
+    participant E as Environment
+    participant B as Bot
+
+    D ->> B: rollback <artefact> [ qa | staging | prod]
+    B ->> G: Трігер
+    G ->>+ R: Запит попереднього образу з реєстру
+    R ->>- G: Отримання попереднього образу з реєстру
+    G ->> E: Розгортання
+    E -->>+ G: Результат
+    G ->>- B: Webhook
+    B -->> D: Відомості про стан та розгортання артефакту в оточенні        
+```
