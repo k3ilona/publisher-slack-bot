@@ -95,3 +95,23 @@ autonumber
     G ->>- B: Webhook
     B -->> D: Відомості про стан та розгортання артефакту в оточенні        
 ```
+
+## Команда diff
+
+```mermaid
+sequenceDiagram
+autonumber
+    participant D as Developer
+    participant R as Repository
+    participant G as GitOps
+    participant E as Environment
+    participant B as Bot
+
+    D ->> B: diff <src_env> <dst_env>
+    B ->>+ G: Запит теґу артефакту  <src_env>
+    B ->> G: Запит теґу артефакту  <dst_env>
+    G ->>- B: Поточні теґи артефактів
+    B ->> R: git diff <src_env> <dst_env>
+    R ->> B: Порівняння коду в гілках
+    B -->> D: Відомості про відмінності артефактів між оточеннями
+```
