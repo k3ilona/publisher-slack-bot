@@ -25,3 +25,20 @@ autonumber
 
     B ->> D: Інформація про результат розгортання
 ```
+
+## Команда list
+
+```mermaid
+sequenceDiagram
+autonumber
+    participant D as Developer
+    participant R as Repository
+    participant G as GitOps
+    participant E as Environment
+    participant B as Bot
+
+    D ->>+ B: Запит переліку артефактів
+    B -->>+ G: Запит
+    G ->>- B: Hезультат
+    B -->>- D: Відомості про стан та знаходження артефакту в оточенні
+```
