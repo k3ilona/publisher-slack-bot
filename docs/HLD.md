@@ -53,9 +53,9 @@ B -.-> | | AR
 
 Розробник вносить зміни у гілку `develop` репозиторію застосунку. Створюється `dev` артефакт. GitOps контролер відстежує зміни в гілці `develop` та розгортає `dev` артефакт в оточенні (кластері) `development`. Результат розгортання повертається розробнику ботом в Slack.
 
-Для проходження QA розробник дає боту команду `promote <dev-artifact> qa`. Бот запускає CI процедуру злиття коду з гілки `development` в гілку `qa` від зазначеного коміту (з якого було створено артефакт `dev`). Процедури CI створюють артефакт `qa`. GitOps контролер відстежує зміни в гілці `qa` та розгортає `qa` артефакт в оточенні (кластері) `qa`. Результат розгортання повертається розробнику ботом в Slack. Інформація про попередню версію артефакту зберігається в БД. Так само відбувається і для оточення `staging`, якщо розробник дає команду `promote <qa-artifact> staging`. Розгортання на `prod` відбувається аналогічно, але створюється Pull Request для злиття коду з гілки `staging` в гілку `prod`. Після затвердження PR, відбувається злиття коду та створення артефакту `prod`. GitOps контролер відстежує зміни в гілці `prod` та розгортає `prod` артефакт в оточенні (кластері) `prod`. Результат розгортання повертається розробнику ботом в Slack.
+Для проходження QA розробник дає боту команду `promote <dev-artifact> qa`. Бот запускає CI процедуру злиття коду з гілки `development` в гілку `qa` від зазначеного коміту (з якого було створено артефакт `dev`). Процедури CI створюють артефакт `qa`. GitOps контролер відстежує зміни в гілці `qa` та розгортає `qa` артефакт в оточенні (кластері) `qa`. Результат розгортання повертається розробнику ботом в Slack. Попередня версія артефакту зберігається в реєстрі образів. Так само відбувається і для оточення `staging`, якщо розробник дає команду `promote <qa-artifact> staging`. Розгортання на `prod` відбувається аналогічно, але створюється Pull Request для злиття коду з гілки `staging` в гілку `prod`. Після затвердження PR, відбувається злиття коду та створення артефакту `prod`. GitOps контролер відстежує зміни в гілці `prod` та розгортає `prod` артефакт в оточенні (кластері) `prod`. Результат розгортання повертається розробнику ботом в Slack.
 
-В разі неуспішного розгортання чи за потреби повернутись до попередньої версії артефакту боту надсилається команда `rollback artefact`. Бот звертається до БД та отримує інформацію про попередню версію артефакту та виконує команду `promote <prev-artifact> <env>`.
+В разі неуспішного розгортання чи за потреби повернутись до попередньої версії артефакту боту надсилається команда `rollback artefact`. Бот звертається через GitOps контролер до реєстру образів та отримує інформацію про попередню версію артефакту та виконує команду `promote <prev-artifact> <env>`.
 
 Команда `list` дозволяє отримати перелік артефактів, які на поточний розгорнуті в різних оточеннях. Бот зчитує інформацію з БД та повертає результат.
 
@@ -74,6 +74,7 @@ sequenceDiagram
 autonumber
     participant D as Developer
     participant R as Repository
+    participant RA as Registry
     participant G as GitOps
     participant E as Environment
     participant B as Bot
@@ -82,40 +83,17 @@ autonumber
         D ->> R: Зміни в коді
     end
     loop Інтеграція та Розгортання
-        G -->+ R: Cтан репо
-        R ->>- G: Артефакт
+        R ->> RA: Створення артефакту
+        G -->> R: Cтан репо
+        G ->>+ RA: Запит артефакту 
+        RA ->>- G: Отримання артефакту
         G ->> E: Розгортання
         E -->>+ G: Результат
     end
 
-    G ->>- B: Webhook
+    G ->>- B: Endpoint API call
 
     B ->> D: Інформація про результат розгортання
-```
-
-### Команда list
-
-Застосування команди:
-
-```sh
-/list 
-```
-
-Розробник отримує перелік артефактів, які вже розгорнуті в різних оточеннях.
-
-```mermaid
-sequenceDiagram
-autonumber
-    participant D as Developer
-    participant R as Repository
-    participant G as GitOps
-    participant E as Environment
-    participant B as Bot
-
-    D ->>+ B: Запит переліку артефактів
-    B -->>+ G: Запит
-    G ->>- B: Результат
-    B -->>- D: Відомості про стан та знаходження артефакту в оточенні
 ```
 
 ### Команда promote
@@ -137,13 +115,14 @@ sequenceDiagram
 autonumber
     participant D as Developer
     participant R as Repository
+    participant RA as Registry
     participant G as GitOps
     participant E as Environment
     participant B as Bot
 
     D ->> B: promote <artefact> [ qa | staging | prod]
     B ->> G: Трігер
-    G ->> R: Заміна теґу
+    G ->> R: Призначення теґу
     loop
         alt
             R ->> R: Перенесення коду в гілку [ qa | staging ]
@@ -154,11 +133,13 @@ autonumber
         end
     end 
     R ->> R: Новий теґ [ qa | staging | prod ]
-    G -->>+ R: Відстеження змін
-    R ->>- G: Артефакт [ qa | staging | prod ]
+    R ->> RA: Створення артефакту
+    G -->> R: Відстеження змін
+    G ->>+ RA: Запит артефакту
+    RA ->>- G: Артефакт [ qa | staging | prod ]
     G ->> E: Розгортання
     E -->>+ G: Результат
-    G ->>- B: Webhook
+    G ->>- B: Endpoint API call
     B -->> D: Відомості про стан та розгортання артефакту в оточенні        
 ```
 
@@ -177,18 +158,46 @@ sequenceDiagram
 autonumber
     participant D as Developer
     participant R as Repository
+    participant RA as Registry
     participant G as GitOps
     participant E as Environment
     participant B as Bot
 
     D ->> B: rollback <artefact> [ qa | staging | prod]
     B ->> G: Трігер
-    G ->>+ R: Запит попереднього образу з реєстру
-    R ->>- G: Отримання попереднього образу з реєстру
+    G ->>+ RA: Запит попереднього образу з реєстру
+    RA ->>- G: Отримання попереднього образу з реєстру
     G ->> E: Розгортання
     E -->>+ G: Результат
-    G ->>- B: Webhook
+    G ->>- B: Endpoint API call
     B -->> D: Відомості про стан та розгортання артефакту в оточенні        
+```
+
+
+### Команда list
+
+Застосування команди:
+
+```sh
+/list 
+```
+
+Розробник отримує перелік артефактів, які вже розгорнуті в різних оточеннях.
+
+```mermaid
+sequenceDiagram
+autonumber
+    participant D as Developer
+    participant R as Repository
+    participant RA as Registry
+    participant G as GitOps
+    participant E as Environment
+    participant B as Bot
+
+    D ->>+ B: Запит переліку артефактів
+    B -->>+ G: Запит
+    G ->>- B: Результат
+    B -->>- D: Відомості про стан та знаходження артефакту в оточенні
 ```
 
 ## Команда diff
@@ -206,6 +215,7 @@ sequenceDiagram
 autonumber
     participant D as Developer
     participant R as Repository
+    participant RA as Registry
     participant G as GitOps
     participant E as Environment
     participant B as Bot
@@ -215,6 +225,6 @@ autonumber
     B ->> G: Запит теґу артефакту  <dst_env>
     G ->>- B: Поточні теґи артефактів
     B ->> R: git diff <src_env> <dst_env>
-    R ->> B: Порівняння коду в гілках
+    R ->> B: Порівняння релізів
     B -->> D: Відомості про відмінності артефактів між оточеннями
 ```
