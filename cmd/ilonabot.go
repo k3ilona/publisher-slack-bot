@@ -15,8 +15,7 @@ var ilonabotCmd = &cobra.Command{
 	Use: "go",
 	// Aliases: []string{"go"},
 	Short: "Start main functions of ilonabot",
-	Long: `This type of command bot is triggered when a command begins with a slash. 
-			  It is the bot for slack command interface.`,
+	Long:  `This type of command bot is triggered when a command begins with a slash. It is the bot for slack command interface.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Printf("ilonabot %s started \n", appVersion)
 

@@ -13,8 +13,7 @@ import (
 var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "Provides information about versions and their status.",
-	Long: `This command allows the user to get the current status of application versions 
-	on different environments (dev, qa, staging, prod).`,
+	Long:  `This command allows the user to get the current status of application versions on different environments (dev, qa, staging, prod).`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("list called")
 	},

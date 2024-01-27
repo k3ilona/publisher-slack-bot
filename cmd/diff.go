@@ -13,9 +13,7 @@ import (
 var diffCmd = &cobra.Command{
 	Use:   "diff",
 	Short: "Compare application versions and indicate the difference between them.",
-	Long: `Allows the user to get a list of changes that must be made to update the version 
-	of the application on a certain environment. The bot compares the versions 
-	and indicates the difference between them.`,
+	Long:  `Allows the user to get a list of changes that must be made to update the version of the application on a certain environment. The bot compares the versions and indicates the difference between them.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("diff called")
 	},
