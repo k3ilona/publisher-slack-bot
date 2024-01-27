@@ -12,13 +12,10 @@ import (
 // promoteCmd represents the promote command
 var promoteCmd = &cobra.Command{
 	Use:   "promote",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Go to the new version and confirm the successful execution of the operation.",
+	Long: `This command allows the user to upgrade the application version to the next environment. 
+	On command, the bot will perform the necessary actions to switch to the new version 
+	and confirm the successful completion of the operation.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("promote called")
 	},
