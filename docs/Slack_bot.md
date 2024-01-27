@@ -95,5 +95,5 @@ go: added google.golang.org/protobuf v1.31.0
 [GO Documentation](https://go.dev/doc/)  
 [How to Distribute Go Modules](https://www.digitalocean.com/community/tutorials/how-to-distribute-go-modules)  
 
-
-## [Повернутись до змісту](../README.md)  
+---
+← [Повернутись до змісту](../README.md)  
