@@ -12,13 +12,8 @@ import (
 // rollbackCmd represents the rollback command
 var rollbackCmd = &cobra.Command{
 	Use:   "rollback",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Restore the previous version and confirm the operation.",
+	Long:  `This command allows the user to roll back the update of the application version to the previous version.	Performs the necessary actions to restore the previous version and confirms the successful completion of the operation.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("rollback called")
 	},

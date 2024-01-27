@@ -12,13 +12,8 @@ import (
 // diffCmd represents the diff command
 var diffCmd = &cobra.Command{
 	Use:   "diff",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Compare application versions and indicate the difference between them.",
+	Long:  `Allows the user to get a list of changes that must be made to update the version of the application on a certain environment. The bot compares the versions and indicates the difference between them.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("diff called")
 	},
