@@ -66,10 +66,10 @@ arm: format get
 	docker build --build-arg name=arm -t ${REGESTRY}/${APP}:${VERSION}-$(detected_OS)-arm .
 
 image:
-	docker build . -t ${REGESTRY}/${APP}:${VERSION}-${BRANCH} --build-arg TARGETOS=${detected_OS} --build-arg TARGETARCH=${TARGETARCH}
+	docker build . -t ${REGESTRY}/${APP}:${VERSION} --build-arg TARGETOS=${detected_OS} --build-arg TARGETARCH=${TARGETARCH}
 
 push:
-	docker push ${REGESTRY}/${APP}:${VERSION}-${BRANCH}
+	docker push ${REGESTRY}/${APP}:${VERSION}
 
 dive: image
 	IMG1=$$(docker images -q | head -n 1); \
