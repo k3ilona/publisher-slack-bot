@@ -23,10 +23,10 @@ APP :=ibot
 # $(shell basename $(shell git remote get-url origin) | cut -d"." -f1)
 # $(shell basename $(shell git remote get-url origin))
 REGESTRY :=k3ilona
-VERSION=$(shell git describe --tags --abbrev=0 --always)-$(shell git rev-parse --short HEAD)
+BRANCH :=dev
+VERSION=$(shell git describe --tags --abbrev=0 --always)-$(shell git rev-parse --short HEAD)-${BRANCH}
 TARGETARCH := amd64 
 TARGETOS=${detected_OS}
-BRANCH :=dev
 
 format:
 	gofmt -s -w ./
@@ -70,7 +70,7 @@ image:
 
 push:
 	docker push ${REGESTRY}/${APP}:${VERSION}-${BRANCH}
-	
+
 dive: image
 	IMG1=$$(docker images -q | head -n 1); \
 	CI=true docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive --ci --lowestEfficiency=0.99 $${IMG1}; \
