@@ -2,11 +2,12 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"os"
-	"time"
 
 	"github.com/joho/godotenv"
 	"github.com/slack-go/slack"
+	"github.com/slack-go/slack/socketmode"
 	"github.com/spf13/cobra"
 )
 
@@ -24,49 +25,20 @@ var ilonabotCmd = &cobra.Command{
 
 		// Ініціалізація глобальних змінних
 		token := os.Getenv("SLACK_AUTH_TOKEN")
-		channelID := os.Getenv("SLACK_CHANNEL_ID")
+		appToken := os.Getenv("SLACK_APP_TOKEN")
 		// Передача змінних як аргументів у функцію cmd.Execute()
 
 		// Створення нового клієнта для Slack за допомогою токена
 		// Встановлення debug в true під час розробки
-		client := slack.New(token, slack.OptionDebug(true))
-
-		// Create the Slack attachment that we will send to the channel
-		attachment := slack.Attachment{
-			// Pretext: "Slack бот Ilona запущено!",
-			// Text:    "Подія сталась:",
-			// Color Styles the Text, making it possible to have like Warnings etc.
-			Color: "#F78166",
-			// Fields are Optional extra data!
-			Fields: []slack.AttachmentField{
-				{
-					Title: "Версія:",
-					Value: appVersion,
-				},
-				{
-					Title: "Дата:",
-					Value: time.Now().Format("02-01-2006"),
-				},
-				{
-					Title: "Час:",
-					Value: time.Now().Format("15:04:05"),
-				},
-			},
-		}
-		// PostMessage will send the message away.
-		// First parameter is just the channelID, makes no sense to accept it
-		_, timestamp, err := client.PostMessage(
-			channelID,
-			// uncomment the item below to add a extra Header to the message, try it out :)
-			slack.MsgOptionText("Slack бот Ilona запущено!", true),
-			slack.MsgOptionAttachments(attachment),
+		client := slack.New(token, slack.OptionDebug(true), slack.OptionAppLevelToken(appToken))
+		// go-slack comes with a SocketMode package that we need to use that accepts a Slack client and outputs a Socket mode client instead
+		socketClient := socketmode.New(
+			client,
+			socketmode.OptionDebug(true),
+			// Option to set a custom logger
+			socketmode.OptionLog(log.New(os.Stdout, "socketmode: ", log.Lshortfile|log.LstdFlags)),
 		)
-
-		if err != nil {
-			panic(err)
-		}
-
-		fmt.Printf("Message sent at %s", timestamp)
+		socketClient.Run()
 	},
 }
 

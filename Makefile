@@ -22,7 +22,7 @@ A = \007#         BEEP
 APP :=ibot
 # $(shell basename $(shell git remote get-url origin) | cut -d"." -f1)
 # $(shell basename $(shell git remote get-url origin))
-REGESTRY :=k3ilona
+REGESTRY :=ghcr.io/k3ilona
 BRANCH :=dev
 VERSION=$(shell git describe --tags --abbrev=0 --always)-$(shell git rev-parse --short HEAD)-${BRANCH}
 TARGETARCH := amd64 
