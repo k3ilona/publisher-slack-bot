@@ -15,10 +15,13 @@ image:
 secret:
   - name: "ibot"
     env: "SLACK_AUTH_TOKEN"
-    key: "token"
+    key: "auth-token"
   - name: "ibot-channel"
     env: "SLACK_CHANNEL_ID"
     key: "channel-id"
+  - name: "ibot-app"
+    env: "SLACK_APP_TOKEN"
+    key: "app-token"
 securityContext:
   privileged: true
 
