@@ -59,7 +59,7 @@ var ilonabotCmd = &cobra.Command{
 					return
 				case event := <-socketClient.Events:
 					// We have a new Events, let's type switch the event
-					// Add more use cases here if you want to listen to other events.
+					// Додамо слухачі подій на які має реагувати бот
 					switch event.Type {
 					// handle EventAPI events
 					case socketmode.EventTypeEventsAPI:
@@ -82,14 +82,66 @@ var ilonabotCmd = &cobra.Command{
 							log.Fatal(err)
 						}
 
+					// Handle Slash Commands
+					case socketmode.EventTypeSlashCommand:
+						// Just like before, type cast to the correct event type, this time a SlashEvent
+						command, ok := event.Data.(slack.SlashCommand)
+						if !ok {
+							log.Printf("Could not type cast the message to a SlashCommand: %v\n", command)
+							continue
+						}
+						// Dont forget to acknowledge the request
+						socketClient.Ack(*event.Request)
+						// handleSlashCommand will take care of the command
+						err := handleSlashCommand(command, client)
+						if err != nil {
+							log.Fatal(err)
+						}
 					}
-
 				}
 			}
 		}(ctx, client, socketClient)
 
 		socketClient.Run()
 	},
+}
+
+// handleSlashCommand will take a slash command and route to the appropriate function
+func handleSlashCommand(command slack.SlashCommand, client *slack.Client) error {
+	// We need to switch depending on the command
+	switch command.Command {
+	case "/version":
+		// This was a hello command, so pass it along to the proper function
+		return handleVersionCommand(command, client)
+	}
+
+	return nil
+}
+
+// handleVersionCommand will take care of /version submissions
+func handleVersionCommand(command slack.SlashCommand, client *slack.Client) error {
+	// The Input is found in the text field so
+	// Create the attachment and assigned based on the message
+	attachment := slack.Attachment{}
+	// Add Some default context like user who mentioned the bot
+	attachment.Fields = []slack.AttachmentField{
+		{
+			Title: "Версія:",
+			Value: appVersion,
+		},
+	}
+	// Greet the user
+
+	attachment.Pretext = fmt.Sprint("Поточна версія Slack боту IlonaBot")
+	attachment.Color = "#FF813F"
+
+	// Send the message to the channel
+	// The Channel is available in the command.ChannelID
+	_, _, err := client.PostMessage(command.ChannelID, slack.MsgOptionAttachments(attachment))
+	if err != nil {
+		return fmt.Errorf("failed to post message: %w", err)
+	}
+	return nil
 }
 
 // handleEventMessage will take an event and handle it properly based on the type of event
