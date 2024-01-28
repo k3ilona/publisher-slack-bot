@@ -9,4 +9,4 @@ FROM golang:latest
 WORKDIR /
 COPY --from=builder /go/src/app/ibot .
 COPY --from=alpine:latest /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-ENTRYPOINT ["./publisher-slack-bot", "go"]
+ENTRYPOINT ["./ibot", "go"]

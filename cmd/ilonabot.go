@@ -40,6 +40,7 @@ var ilonabotCmd = &cobra.Command{
 			socketmode.OptionLog(log.New(os.Stdout, "socketmode: ", log.Lshortfile|log.LstdFlags)),
 		)
 		socketClient.Run()
+
 		attachment := slack.Attachment{
 			// Pretext: "Slack бот Ilona запущено!",
 			// Text:    "Подія сталась:",
