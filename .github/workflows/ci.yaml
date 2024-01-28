@@ -13,6 +13,7 @@ jobs:
       contents: write
       pull-requests: write
       id-token: write
+      packages: write
 
     steps:
     - name: Checkout
@@ -22,6 +23,12 @@ jobs:
 
     - name: Run test
       run: make test
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build_Push
       env:
         APP: "ibot"

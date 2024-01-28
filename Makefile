@@ -1,12 +1,12 @@
 ifeq '$(findstring ;,$(PATH))' ';'
-    detected_OS := windows
-	detected_arch := amd64
+    DETECTED_OS := windows
+    DETECTED_ARCH := amd64
 else
-    detected_OS := $(shell uname | tr '[:upper:]' '[:lower:]' 2> /dev/null || echo Unknown)
-    detected_OS := $(patsubst CYGWIN%,Cygwin,$(detected_OS))
-    detected_OS := $(patsubst MSYS%,MSYS,$(detected_OS))
-    detected_OS := $(patsubst MINGW%,MSYS,$(detected_OS))
-	detected_arch := $(shell dpkg --print-architecture 2>/dev/null || amd64)
+    DETECTED_OS := $(shell uname | tr '[:upper:]' '[:lower:]' 2> /dev/null || echo Unknown)
+    DETECTED_OS := $(patsubst CYGWIN%,Cygwin,${DETECTED_OS})
+    DETECTED_OS := $(patsubst MSYS%,MSYS,${DETECTED_OS})
+    DETECTED_OS := $(patsubst MINGW%,MSYS,${DETECTED_OS})
+    DETECTED_ARCH := $(shell dpkg --print-architecture 2>/dev/null || echo amd64)
 endif
 
 #colors:
@@ -26,7 +26,7 @@ REGESTRY :=ghcr.io/k3ilona
 BRANCH :=dev
 VERSION=$(shell git describe --tags --abbrev=0 --always)-$(shell git rev-parse --short HEAD)-${BRANCH}
 TARGETARCH := amd64 
-TARGETOS=${detected_OS}
+TARGETOS=${DETECTED_OS}
 
 format:
 	gofmt -s -w ./
@@ -41,32 +41,32 @@ test:
 	go test -v
 
 build: format get
-	@printf "$GDetected OS/ARCH: $R$(detected_OS)/$(detected_arch)$D\n"
+	@printf "$GDetected OS/ARCH: $R${DETECTED_OS}/${DETECTED_ARCH}$D\n"
 	@printf "$MDetected Version: $R${VERSION}$D\n"
-	CGO_ENABLED=0 GOOS=$(detected_OS) GOARCH=$(detected_arch) go build -v -o ibot -ldflags "-X="github.com/k3ilona/publisher-slack-bot/cmd.appVersion=${VERSION}
+	CGO_ENABLED=0 GOOS=${DETECTED_OS} GOARCH=${DETECTED_ARCH} go build -v -o ibot -ldflags "-X="github.com/k3ilona/publisher-slack-bot/cmd.appVersion=${VERSION}
 
 linux: format get
-	@printf "$GTarget OS/ARCH: $Rlinux/$(detected_arch)$D\n"
-	CGO_ENABLED=0 GOOS=linux GOARCH=$(detected_arch) go build -v -o ibot -ldflags "-X="github.com/k3ilona/publisher-slack-bot/cmd.appVersion=${VERSION}
-	docker build --build-arg name=linux -t ${REGESTRY}/${APP}:${VERSION}-linux-$(detected_arch) .
+	@printf "$GTarget OS/ARCH: $Rlinux/${DETECTED_ARCH}$D\n"
+	CGO_ENABLED=0 GOOS=linux GOARCH=${DETECTED_ARCH} go build -v -o ibot -ldflags "-X="github.com/k3ilona/publisher-slack-bot/cmd.appVersion=${VERSION}
+	docker build --build-arg name=linux -t ${REGESTRY}/${APP}:${VERSION}-linux-${DETECTED_ARCH} .
 
 windows: format get
-	@printf "$GTarget OS/ARCH: $Rwindows/$(detected_arch)$D\n"
-	CGO_ENABLED=0 GOOS=windows GOARCH=$(detected_arch) go build -v -o ibot -ldflags "-X="github.com/k3ilona/publisher-slack-bot/cmd.appVersion=${VERSION}
-	docker build --build-arg name=windows -t ${REGESTRY}/${APP}:${VERSION}-windows-$(detected_arch) .
+	@printf "$GTarget OS/ARCH: $Rwindows/${DETECTED_ARCH}$D\n"
+	CGO_ENABLED=0 GOOS=windows GOARCH=${DETECTED_ARCH} go build -v -o ibot -ldflags "-X="github.com/k3ilona/publisher-slack-bot/cmd.appVersion=${VERSION}
+	docker build --build-arg name=windows -t ${REGESTRY}/${APP}:${VERSION}-windows-${DETECTED_ARCH} .
 
 darwin:format get
-	@printf "$GTarget OS/ARCH: $Rdarwin/$(detected_arch)$D\n"
-	CGO_ENABLED=0 GOOS=darwin GOARCH=$(detected_arch) go build -v -o ibot -ldflags "-X="github.com/k3ilona/publisher-slack-bot/cmd.appVersion=${VERSION}
-	docker build --build-arg name=darwin -t ${REGESTRY}/${APP}:${VERSION}-darwin-$(detected_arch) .
+	@printf "$GTarget OS/ARCH: $Rdarwin/${DETECTED_ARCH}$D\n"
+	CGO_ENABLED=0 GOOS=darwin GOARCH=${DETECTED_ARCH} go build -v -o ibot -ldflags "-X="github.com/k3ilona/publisher-slack-bot/cmd.appVersion=${VERSION}
+	docker build --build-arg name=darwin -t ${REGESTRY}/${APP}:${VERSION}-darwin-${DETECTED_ARCH} .
 
 arm: format get
-	@printf "$GTarget OS/ARCH: $R$(detected_OS)/arm$D\n"
-	CGO_ENABLED=0 GOOS=$(detected_OS) GOARCH=arm go build -v -o ibot -ldflags "-X="github.com/k3ilona/publisher-slack-bot/cmd.appVersion=${VERSION}
-	docker build --build-arg name=arm -t ${REGESTRY}/${APP}:${VERSION}-$(detected_OS)-arm .
+	@printf "$GTarget OS/ARCH: $R${DETECTED_OS}/arm$D\n"
+	CGO_ENABLED=0 GOOS=${DETECTED_OS} GOARCH=arm go build -v -o ibot -ldflags "-X="github.com/k3ilona/publisher-slack-bot/cmd.appVersion=${VERSION}
+	docker build --build-arg name=arm -t ${REGESTRY}/${APP}:${VERSION}-${DETECTED_OS}-arm .
 
 image:
-	docker build . -t ${REGESTRY}/${APP}:${VERSION} --build-arg TARGETOS=${detected_OS} --build-arg TARGETARCH=${TARGETARCH}
+	docker build . -t ${REGESTRY}/${APP}:${VERSION} --build-arg TARGETOS=${DETECTED_OS} --build-arg TARGETARCH=${TARGETARCH}
 
 push:
 	docker push ${REGESTRY}/${APP}:${VERSION}
