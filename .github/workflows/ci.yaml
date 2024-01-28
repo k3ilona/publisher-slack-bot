@@ -1,0 +1,31 @@
+name: DEV-CI
+
+on: 
+  push:
+    branches:
+      - dev
+
+jobs:
+  ci:
+    name: DEV-CI
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Run test
+      run: make test
+    - name: Build_Push
+      env:
+        APP: "ibot"
+        REGESTRY: "ghcr.io/k3ilona"
+      run: make image push
+    - name: Clean
+      run: make clean
