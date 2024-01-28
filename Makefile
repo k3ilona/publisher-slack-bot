@@ -24,7 +24,7 @@ APP :=ibot
 # $(shell basename $(shell git remote get-url origin))
 REGESTRY :=ghcr.io/k3ilona
 BRANCH :=dev
-VERSION=$(shell git describe --tags --abbrev=0 --always)-$(shell git rev-parse --short HEAD)-${BRANCH}
+VERSION=$(shell git describe --tags --abbrev=0 --always)-${BRANCH}-$(shell git rev-parse --short HEAD)
 TARGETARCH := amd64 
 TARGETOS=${DETECTED_OS}
 
@@ -70,13 +70,6 @@ image:
 
 push:
 	docker push ${REGESTRY}/${APP}:${VERSION}
-
-dive: image
-	IMG1=$$(docker images -q | head -n 1); \
-	CI=true docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive --ci --lowestEfficiency=0.99 $${IMG1}; \
-	IMG2=$$(docker images -q | sed -n 2p); \
-	docker rmi $${IMG1}; \
-	docker rmi $${IMG2}
 
 clean:
 	@rm -rf ibot; \
