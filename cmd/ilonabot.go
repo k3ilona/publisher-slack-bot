@@ -26,7 +26,6 @@ var ilonabotCmd = &cobra.Command{
 		// Ініціалізація глобальних змінних
 		token := os.Getenv("SLACK_AUTH_TOKEN")
 		appToken := os.Getenv("SLACK_APP_TOKEN")
-		channelID := os.Getenv("SLACK_CHANNEL_ID")
 		// Передача змінних як аргументів у функцію cmd.Execute()
 
 		// Створення нового клієнта для Slack за допомогою токена
@@ -40,33 +39,6 @@ var ilonabotCmd = &cobra.Command{
 			socketmode.OptionLog(log.New(os.Stdout, "socketmode: ", log.Lshortfile|log.LstdFlags)),
 		)
 		socketClient.Run()
-
-		attachment := slack.Attachment{
-			// Pretext: "Slack бот Ilona запущено!",
-			// Text:    "Подія сталась:",
-			// Color Styles the Text, making it possible to have like Warnings etc.
-			Color: "#03574B",
-			// Fields are Optional extra data!
-			Fields: []slack.AttachmentField{
-				{
-					Title: "Версія:",
-					Value: appVersion,
-				},
-			},
-		}
-		// PostMessage will send the message away.
-		// First parameter is just the channelID, makes no sense to accept it
-		_, _, err := client.PostMessage(
-			channelID,
-			// uncomment the item below to add a extra Header to the message, try it out :)
-			slack.MsgOptionText("Запущена команда визначення версії Slack боту Ilona", true),
-			slack.MsgOptionAttachments(attachment),
-		)
-
-		if err != nil {
-			panic(err)
-		}
-
 	},
 }
 
