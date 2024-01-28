@@ -6,7 +6,7 @@ else
     DETECTED_OS := $(patsubst CYGWIN%,Cygwin,${DETECTED_OS})
     DETECTED_OS := $(patsubst MSYS%,MSYS,${DETECTED_OS})
     DETECTED_OS := $(patsubst MINGW%,MSYS,${DETECTED_OS})
-    DETECTED_ARCH := $(shell dpkg --print-architecture 2>/dev/null || amd64)
+    DETECTED_ARCH := $(shell uname -m 2>/dev/null || echo amd64)
 endif
 
 #colors:
