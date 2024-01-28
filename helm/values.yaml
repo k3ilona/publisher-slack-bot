@@ -13,12 +13,18 @@ image:
   parameter: go
 
 secret:
+  secret1:  
     name: "ibot"
     env: "SLACK_AUTH_TOKEN"
-    key: "token"
-  # - name: "ibot-channel"
-  #   env: "SLACK_CHANNEL_ID"
-  #   key: "channel-id"
+    key: "auth-token"
+  secret2:
+    name: "ibot-channel"
+    env: "SLACK_CHANNEL_ID"
+    key: "channel-id"
+  secret3:
+    name: "ibot-app"
+    env: "SLACK_APP_TOKEN"
+    key: "app-token"
 securityContext:
   privileged: true
 
