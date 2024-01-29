@@ -140,17 +140,15 @@ SLACK_APP_TOKEN=xapp-***********************************************
 - Замінимо функцію вивода логів (або тимчасово додамо) у головній функції, яка друкувала подію, новою функцією handleEventMessage.
 
 ```go
-						// Now we have an Events API event, but this event type can in turn be many types, so we actually need another type switch
-						log.Println(eventsAPIEvent)
+// Now we have an Events API event, but this event type can in turn be many types, so we actually need another type switch
+log.Println(eventsAPIEvent)
 
-						// Now we have an Events API event, but this event type can in turn be many types, so we actually need another type switch
-						err := handleEventMessage(eventsAPIEvent)
-						if err != nil {
-							// Replace with actual err handeling
-							log.Fatal(err)
-						}
-
-```
+// Now we have an Events API event, but this event type can in turn be many types, so we actually need another type switch
+err := handleEventMessage(eventsAPIEvent)
+if err != nil {
+	// Replace with actual err handeling
+	log.Fatal(err)
+}
 - Тепер реєстрація події не робить бота веселим. Ми повинні змусити бота відповідати користувачеві, який його згадав, і якщо він сказав привіт, він також повинен привітати його.
 
 - Для цього потрібно додати боту область застосування `users:read`
