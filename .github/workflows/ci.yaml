@@ -36,3 +36,31 @@ jobs:
       run: make image push
     - name: Clean
       run: make clean
+      
+  helm:
+    name: DEV-HELM
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Define tag
+      run: echo "TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+
+    - name: Define version
+      run: echo "VERSION=$TAG-${{ github.ref }}-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+    - uses: mikefarah/yq@master
+      with:
+        cmd: |
+          yq -i '.image.version = strenv(VERSION) helm/values.yaml' 
+          yq -i '.appVersion = strenv(TAG) helm/Chart.yaml'
+
+    - run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git commit -am "update version $VERSION"
+        git push
