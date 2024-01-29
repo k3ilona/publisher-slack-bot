@@ -57,8 +57,8 @@ jobs:
     - uses: mikefarah/yq@master
       with:
         cmd: |
-          yq -i '.image.version = strenv(VERSION) helm/values.yaml' 
-          yq -i '.appVersion = strenv(TAG) helm/Chart.yaml'
+          yq -i '.image.version = strenv(VERSION)' helm/values.yaml 
+          yq -i '.appVersion = strenv(TAG)' helm/Chart.yaml
 
     - run: |
         git config user.name github-actions
