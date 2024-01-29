@@ -39,7 +39,7 @@ var ilonabotCmd = &cobra.Command{
 		// go-slack comes with a SocketMode package that we need to use that accepts a Slack client and outputs a Socket mode client instead
 		socketClient := socketmode.New(
 			client,
-			socketmode.OptionDebug(true),
+			socketmode.OptionDebug(false),
 			// Option to set a custom logger
 			socketmode.OptionLog(log.New(os.Stdout, "socketmode: ", log.Lshortfile|log.LstdFlags)),
 		)

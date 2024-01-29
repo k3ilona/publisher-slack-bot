@@ -5,7 +5,7 @@ COPY . .
 ARG TARGETARCH
 RUN make build TARGETARCH=$TARGETARCH
 
-FROM alpine
+FROM scratch
 # golang:latest
 WORKDIR /
 COPY --from=builder /go/src/app/ibot .
