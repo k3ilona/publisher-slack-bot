@@ -77,15 +77,15 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-        persist-credentials: false
         fetch-depth: 0
         
-    - uses: GuillaumeFalourd/git-commit-push@v1.3
-      with:
-        email: github-actions@github.com
-        name: github-actions
-        access_token: ${{ secrets.GITHUB_TOKEN }}
-        target_branch: refs/heads/qa
-        files: .
-        force: true
-        commit_message: "Update version $VERSION"
+    - name: Setup git
+      run: |
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "GitHub Actions Bot"
+
+    - name: Merge branch
+      run: |
+        git checkout qa
+        git merge dev --no-edit  # replace source-branch and target-branch with your branch names
+        git push
