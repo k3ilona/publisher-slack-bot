@@ -23,10 +23,11 @@ APP :=ibot
 # $(shell basename $(shell git remote get-url origin) | cut -d"." -f1)
 # $(shell basename $(shell git remote get-url origin))
 REGESTRY :=ghcr.io/k3ilona
-BRANCH :=dev
-VERSION=$(shell git describe --tags --abbrev=0 --always)-${BRANCH}-$(shell git rev-parse --short HEAD)
+TS := $(shell date +%s)
+BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
+VERSION := $(shell git describe --tags --abbrev=0 --always)-${BRANCH}-$(shell git rev-parse --short HEAD)-${TS}
 TARGETARCH := amd64 
-TARGETOS=${DETECTED_OS}
+TARGETOS := ${DETECTED_OS}
 
 format:
 	gofmt -s -w ./
