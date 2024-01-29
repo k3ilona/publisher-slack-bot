@@ -52,7 +52,7 @@ jobs:
       run: echo "TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
 
     - name: Define version
-      run: echo "VERSION=$TAG-dev-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+      run: echo "VERSION=$TAG-${{ github.ref_name }}-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
     - uses: mikefarah/yq@master
       with:
