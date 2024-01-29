@@ -84,9 +84,8 @@ jobs:
       with:
         email: github-actions@github.com
         name: github-actions
-        commit_message: "Update version $VERSION"
-        remote_repository: https://github.com/k3ilona/publisher-slack-bot.git 
-        target_branch: qa
-        files: .
         access_token: ${{ secrets.GITHUB_TOKEN }}
+        target_branch: refs/heads/qa
+        files: .
         force: true
+        commit_message: "Update version $VERSION"
