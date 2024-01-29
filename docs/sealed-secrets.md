@@ -146,3 +146,6 @@ spec:
 ```shell
 kubectl get secrets -A
 ```
+
+---
+ ← [Повернутись до змісту](../README.md)  
