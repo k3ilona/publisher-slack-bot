@@ -15,13 +15,13 @@ image:
 secret:
   - name: "token"
     env: "SLACK_AUTH_TOKEN"
-    key: "auth-token"
+    key: "token"
   - name: "channel-id"
     env: "SLACK_CHANNEL_ID"
     key: "channel-id"
   - name: "appToken"
     env: "SLACK_APP_TOKEN"
-    key: "app-token"
+    key: "appToken"
 securityContext:
   privileged: true
 
