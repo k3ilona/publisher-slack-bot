@@ -39,6 +39,7 @@ jobs:
       
   helm:
     name: DEV-HELM
+    needs: DEV-CI
     runs-on: ubuntu-latest
 
     steps:
