@@ -7,11 +7,10 @@ image:
   registry: "ghcr.io"
   repository: "k3ilona/publisher-slack-bot"
   pullPolicy: IfNotPresent # Дозволяє замінити образ за замовчуванням
-  tag: 1.0.0-f6c0673 # echo $(git describe --tags --abbrev=0)-$(git rev-parse --short HEAD)
+  tag: 0.1.3-dev-581fa31 # echo $(git describe --tags --abbrev=0)-$(git rev-parse --short HEAD)
   os: linux
   arch: amd64
   parameter: go
-
 secret:
   - name: "ibot"
     env: "SLACK_AUTH_TOKEN"
