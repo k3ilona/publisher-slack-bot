@@ -51,7 +51,7 @@ jobs:
       run: echo "TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
 
     - name: Define version
-      run: echo "VERSION=$TAG-${{ github.ref }}-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+      run: echo "VERSION=$TAG-dev-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
     - uses: mikefarah/yq@master
       with:
@@ -63,4 +63,4 @@ jobs:
         git config user.name github-actions
         git config user.email github-actions@github.com
         git commit -am "update version $VERSION"
-        git push
+        git push -f
