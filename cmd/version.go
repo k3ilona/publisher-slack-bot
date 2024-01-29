@@ -36,7 +36,7 @@ var versionCmd = &cobra.Command{
 			// Pretext: "Slack бот Ilona запущено!",
 			// Text:    "Подія сталась:",
 			// Color Styles the Text, making it possible to have like Warnings etc.
-			Color: "#FF813F",
+			Color: "#03574B",
 			// Fields are Optional extra data!
 			Fields: []slack.AttachmentField{
 				{
@@ -50,7 +50,7 @@ var versionCmd = &cobra.Command{
 		_, _, err := client.PostMessage(
 			channelID,
 			// uncomment the item below to add a extra Header to the message, try it out :)
-			slack.MsgOptionText("Поточна версія Slack боту IlonaBot", true),
+			slack.MsgOptionText("Запущена команда визначення версії Slack боту Ilona", true),
 			slack.MsgOptionAttachments(attachment),
 		)
 

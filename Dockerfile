@@ -5,9 +5,8 @@ COPY . .
 ARG TARGETARCH
 RUN make build TARGETARCH=$TARGETARCH
 
-FROM scratch
-# golang:latest
+FROM golang:latest
 WORKDIR /
 COPY --from=builder /go/src/app/ibot .
 COPY --from=alpine:latest /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-ENTRYPOINT ["./ibot", "go"]
+ENTRYPOINT ["./publisher-slack-bot", "go"]
