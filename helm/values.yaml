@@ -11,7 +11,7 @@ image:
   os: linux
   arch: amd64
   parameter: go
-  version: 0.1.3-dev-c97f46b
+  version: 0.1.3-dev-7bb8f06
 secret:
   - name: "ibot"
     env: "SLACK_AUTH_TOKEN"
