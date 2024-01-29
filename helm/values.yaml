@@ -13,13 +13,13 @@ image:
   parameter: go
   version: 0.1.3-dev-c97f46b
 secret:
-  - name: "token"
+  - name: "ibot"
     env: "SLACK_AUTH_TOKEN"
     key: "token"
-  - name: "channel-id"
+  - name: "ibot"
     env: "SLACK_CHANNEL_ID"
     key: "channel-id"
-  - name: "appToken"
+  - name: "ibot"
     env: "SLACK_APP_TOKEN"
     key: "appToken"
 securityContext:
