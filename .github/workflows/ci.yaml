@@ -86,6 +86,6 @@ jobs:
         name: github-actions
         commit_message: "Update version $VERSION"
         target_branch: qa
-        files: *.*
+        files: ./
         access_token: ${{ secrets.GITHUB_TOKEN }}
         force: true
