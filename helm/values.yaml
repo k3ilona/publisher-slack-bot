@@ -11,7 +11,7 @@ image:
   os: linux
   arch: amd64
   parameter: go
-  version: 0.1.3-dev-ac37dab
+  version: 0.1.3-dev-c97f46b
 secret:
   - name: "token"
     env: "SLACK_AUTH_TOKEN"
