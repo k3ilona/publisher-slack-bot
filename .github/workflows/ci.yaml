@@ -65,3 +65,25 @@ jobs:
         git config user.email github-actions@github.com
         git commit -am "update version $VERSION"
         git push -f
+
+  push:
+    name: DEV-QA
+    needs: helm
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    - uses: actions/checkout@v3
+      with:
+        persist-credentials: false
+        fetch-depth: 0
+    - uses: GuillaumeFalourd/git-commit-push@v1.3
+      with:
+        email: github-actions@github.com
+        name: github-actions
+        commit_message: "Update version $VERSION"
+        target_branch: qa
+        files: .
+        access_token: ${{ secrets.GITHUB_TOKEN }}
+        force: true
