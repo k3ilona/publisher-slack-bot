@@ -29,7 +29,7 @@ jobs:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Build_Push
+    - name: Build and Push to GitHub Container Registry
       env:
         APP: "ibot"
         REGESTRY: "ghcr.io/k3ilona"
