@@ -196,8 +196,8 @@ func handleAppMentionEvent(event *slackevents.AppMentionEvent, client *slack.Cli
 		attachment.Color = "#4af030"
 	} else {
 		// Send a message to the user
-		attachment.Text = fmt.Sprintf("Як я можу Вам допомогти %s?", user.RealName)
-		attachment.Pretext = "Знаходжусь в очікуванні команд"
+		attachment.Text = fmt.Sprintf("%s, слухаю уважно 😙💨", user.RealName)
+		attachment.Pretext = "🥱, а? Шо, щось сталося?"
 		attachment.Color = "#3d3d3d"
 	}
 	// Send the message to the channel
