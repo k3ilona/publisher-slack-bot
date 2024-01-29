@@ -85,7 +85,7 @@ jobs:
         email: github-actions@github.com
         name: github-actions
         commit_message: "Update version $VERSION"
-        target_branch: qa
+        target_branch: origin qa
         files: .
         access_token: ${{ secrets.GITHUB_TOKEN }}
         force: true
