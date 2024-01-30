@@ -7,7 +7,7 @@ image:
   registry: "ghcr.io"
   repository: "k3ilona/publisher-slack-bot"
   pullPolicy: IfNotPresent # Дозволяє замінити образ за замовчуванням
-  tag: 1.0.0-dev-51d4a0e-1706565759 # echo $(git describe --tags --abbrev=0)-$(git rev-parse --short HEAD)
+  tag: 0.1.4-dev-1409b18-1706612782 # echo $(git describe --tags --abbrev=0)-$(git rev-parse --short HEAD)
   os: linux
   arch: amd64
   parameter: go
