@@ -46,5 +46,6 @@
 - [Вибір концепції проєкту](docs/concept.md)  
 - [Загальна архітектура системи, основні компоненти, взаємодія між ними та основні функціональні можливості (HLD)](docs/HLD.md)  
 - [Розгортання кластера та налаштування контролера Flux2](docs/cluster_deployment.md)
+- [Автоматичне розгортання образу з репозиторію ghcr.io в кластері](docs/auto-image-updates.md)
 - [Налаштування Secrets у Flux за допомогою Sealed Secrets](docs/sealed-secrets.md)  
 - [Створення артефакту IlonaBot, отримання ключів API, початок роботи](docs/Slack_bot.md)
