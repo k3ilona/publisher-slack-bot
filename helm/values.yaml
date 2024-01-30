@@ -11,15 +11,14 @@ image:
   os: linux
   arch: amd64
   parameter: go
+
 secret:
-  - name: "ibot"
+    name: "ibot"
     env: "SLACK_AUTH_TOKEN"
     key: "token"
-  - name: "ibot"
-    env: "SLACK_CHANNEL_ID"
-    key: "channel-id"
-  - name: "ibot"
-    env: "SLACK_APP_TOKEN"
-    key: "appToken"
+  # - name: "ibot-channel"
+  #   env: "SLACK_CHANNEL_ID"
+  #   key: "channel-id"
 securityContext:
   privileged: true
+
