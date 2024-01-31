@@ -41,10 +41,10 @@ spec:
             name: dev-mem
           image: {{ .Values.image.repository }}/{{ .Chart.Name }}:{{ .Values.image.tag }}
           env:
-            {{- range .Values.secret }}
-              - name: {{ .env }}
-                valueFrom:
-                  secretKeyRef:
-                    name: {{ .name }}
-                    key: {{ .key }}
-            {{- end }}
+          {{- range .Values.secret }}
+            - name: {{ .env }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .name }}
+                  key: {{ .key }}
+          {{- end }}
